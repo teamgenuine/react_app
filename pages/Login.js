@@ -19,10 +19,10 @@ export default class Login extends React.Component {
 		
 		let user = this.state.email;
 		
-		this.setState({emaiValid: user.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)});
+		let emailValid = user.match(/^([A-Za-z0-9_]+)@([A-Za-z0-9]+\.)+([A-Za-z0-9]{1,})$/);
+		this.setState({emailValid});
 		
-		emailError = this.state.emailValid ? '': 'Not corret format for email address';		
-		
+		let emailError = emailValid ? '': 'Not correct format for email address';		
 		this.setState({emailError});		
 	}
 	
@@ -33,12 +33,14 @@ export default class Login extends React.Component {
 		let pass = this.state.password;
 		
 		passValid = !(pass.length < 5 || pass.length > 11);
-		passError = passValid ? '' : '6 - 12 length';
-		
+		this.setState({passValid});
+		passError = passValid ? '' : '6 - 12 length';		
 		this.setState({passError});
 	}
 	
-	
+	userLogin = () => {
+		this.setState({login: "success"});
+	}
 
 	render() {
 		return (
@@ -51,7 +53,7 @@ export default class Login extends React.Component {
 				placeholder='Input Email Address'
 			/>
 			<Text style={styles.error}>{this.state.emailError}</Text>
-			<Text style={styles.error}>{this.state.emailValid}</Text>
+			
 			
 			<Text style={styles.field}>Password</Text>	
 			<TextInput
@@ -64,8 +66,9 @@ export default class Login extends React.Component {
 			
 			
 			<Button
+				disabled = {!this.state.emailValid || !this.state.passValid}
 				title = "submit"
-				disabled = {true}
+				onPress = {this.userLogin.bind(this)}
 			/>
 		  </View>
 		  
