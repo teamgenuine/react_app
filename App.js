@@ -7,6 +7,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+		
 		<Login />
       </View>
     );
@@ -16,7 +17,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'powderblue',
+    backgroundColor: '#FAF8FF',
     alignItems: 'stretch',
   },
   logo_container: {
