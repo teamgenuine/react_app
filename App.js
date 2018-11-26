@@ -6,8 +6,12 @@ import Login from "./pages/Login";
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-		
+      <View style = {styles.container}>
+		<View style = {styles.logo_container}>
+			<Image
+				source = {require('./assets/Logo.png')}
+			/>
+		</View>
 		<Login />
       </View>
     );
@@ -24,11 +28,8 @@ const styles = StyleSheet.create({
 	flexDirection: 'row',
 	alignItems: 'stretch',
 	justifyContent: 'center',
-	padding: 100,
+	paddingTop: 30,
+	paddingBottom: 30,
   },
-  logo_image: {
-	flexDirection: 'column',
-	justifyContent: 'center',  
-  }
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput, Text, Button, View } from 'react-native';
+import { StyleSheet, TextInput, Text, Button, Alert, Picker,View } from 'react-native';
 import { CheckBox } from 'react-native-elements'
 
 
@@ -17,27 +17,31 @@ export default class Login extends React.Component {
 			tempPass: "abcd1234",
 			checked: true,
 		};
+		
+		this.emailValidation = this.emailValidation.bind(this);
+		this.passValidation = this.passValidation.bind(this);
+		this.autoFill = this.autoFill.bind(this);
+		this.userLogin = this.userLogin.bind(this)
 	}
 	
-	emailValidation = (email) => {
+	emailValidation = (email) => {	
 		this.setState({email});
 		
-		let user = this.state.email;
-		
-		let emailValid = user.match(/^([A-Za-z0-9_]+)@([A-Za-z0-9]+\.)+([A-Za-z0-9]{1,})$/);
-		console.log(emailValid);
+		let user = email;
+		let emailValid = user.match(/^([A-Za-z0-9_]+)@([A-Za-z0-9]+\.)+([A-Za-z0-9]{2,})$/);
 		this.setState({emailValid});
 		
 		let emailError = emailValid ? '': 'Not correct format for email address';		
 		this.setState({emailError});		
 	}
 	
+	
 	passValidation = (password) => {
 		this.setState({password});
 		
-		let pass = this.state.password;
+		let pass = password;
 		
-		passValid = !(pass.length < 5 || pass.length > 11);
+		passValid = !(pass.length < 6 || pass.length > 12);
 		this.setState({passValid});
 		
 		passError = passValid ? '' : '6 - 12 length';		
@@ -45,11 +49,13 @@ export default class Login extends React.Component {
 	}
 	
 	
-	autoFill = (email) => {		
-		if (this.state.checked) {
-			this.setState({email})			
+	autoFill = () => {		
+		if (this.state.checked) {		
 			let setEmail = this.state.email;
 			let email = setEmail.toLowerCase();
+			
+			console.log(setEmail);
+			console.log(email);
 			
 			if (email === this.state.tempEmail){ 
 				this.setState({passValid: true});
@@ -63,12 +69,25 @@ export default class Login extends React.Component {
 		let setEmail = this.state.email;
 		let email = setEmail.toLowerCase();
 		let pass = this.state.password;
-				
+		
 		if ((email === this.state.tempEmail) && (pass === this.state.tempPass)) {
-			this.setState({status: "success"})
+			//this.setState({status: "success"})
+			this.showAlert();
 		} else {
 			this.setState({status: "Incorrect Email Address or Password "});
 		}
+	}
+	
+	showAlert = () => {
+		Alert.alert(
+		  'Status',
+		  'Log in Success',
+		  [
+			{text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+			{text: 'OK', onPress: () => console.log('OK Pressed')},
+		  ],
+		  { cancelable: false }
+		)	
 	}
 
 	render() {
@@ -78,9 +97,10 @@ export default class Login extends React.Component {
 			<Text style = {styles.field}>Email</Text>	
 			<TextInput
 				style = {styles.fieldText}
-				onChangeText = {this.emailValidation.bind(this)}	
-				//onBlur = {this.autoFill.bind(this)}				
+				onChangeText = {this.emailValidation}
+				onBlur = {this.autoFill}
 				placeholder = 'Input Email Address'
+				value = {this.state.email}
 			/>
 			<Text style={styles.error}>{this.state.emailError}</Text>					
 			
@@ -94,7 +114,7 @@ export default class Login extends React.Component {
 			<TextInput
 				style = {styles.fieldText}
 				secureTextEntry = {true}
-				onChangeText = {this.passValidation.bind(this)}
+				onChangeText = {this.passValidation}
 				placeholder = 'Input Password'
 				value = {this.state.password}
 			/>
@@ -104,17 +124,14 @@ export default class Login extends React.Component {
 				color = "#714DB2"
 				disabled = {!this.state.emailValid || !this.state.passValid}
 				title = "Sign In"
-				onPress = {this.userLogin.bind(this)}
+				onPress = {this.userLogin}
 			/>
 			
-			
-			<Text style={styles.success}>{this.state.status}</Text>
+			<Text style={styles.error}>{this.state.status}</Text>
 			
 		  </View>
-		  
 		);
 	}
-
 }
 
 const styles = StyleSheet.create ({
@@ -140,6 +157,7 @@ const styles = StyleSheet.create ({
 	},
 	error: {
 		color: 'red',
+		fontStyle: 'italic'
 	},
 	success: {
 		color: 'blue',
