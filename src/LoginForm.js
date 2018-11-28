@@ -3,6 +3,13 @@ import { StyleSheet, Text, TextInput, Button, TouchableOpacity, View, Alert } fr
 import { CheckBox } from 'react-native-elements'
 
 import { connect } from 'react-redux'
+import { checkEmail, 
+		 checkPassword, 
+		 signIn,
+		 rememberUser,
+		 rememberPassword,
+		 alertOk,
+		} from './actions'
 
 class LoginForm extends React.Component {
 	
@@ -28,9 +35,6 @@ class LoginForm extends React.Component {
 		if (this.props.isLogin) {
 			this.showAlert(this.props.LoginError);
 		}
-		console.log(this.props.checkRemember)
-		console.log(this.props.email + ' - email')
-		console.log(this.props.password + ' - pass')
 		return (
 			<View style = {styles.container}>	
 				<View style = {styles.field}>
@@ -101,12 +105,12 @@ function mapStateToProps(state) {
 */
 function mapDispatchToProps(dispatch) {
     return {
-        checkEmail: (email) => dispatch({ type: 'CHECK_EMAIL', email }),
-		checkPass: (password) => dispatch({ type: 'CHECK_PASS', password }),
-		logIn: (email, password) => dispatch({ type: 'SIGN_IN', email, password }),
-		rememberUser: () => dispatch({ type: 'REMEMBER_USER' }),
-		rememberPass: () => dispatch({ type: 'REMEMBER_PASS' }),
-		alertOk: () => dispatch({ type: 'ALERT_OK' }),
+        checkEmail: (email) => dispatch( checkEmail(email) ),
+		checkPass: (password) => dispatch( checkPassword(password) ),
+		logIn: (email, password) => dispatch( signIn(email, password) ),
+		rememberUser: () => dispatch( rememberUser() ),
+		rememberPass: () => dispatch( rememberPassword() ),
+		alertOk: () => dispatch( alertOk() ),
     }
 }
 

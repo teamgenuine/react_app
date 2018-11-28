@@ -1,19 +1,3 @@
-
-const defaultState = {
-	defaultEmail: 'bananaman_18@vananaz.com',
-	defaultPass: 'abcde12345',
-    email: '',
-    password: '',
-	emailError: '',
-	passError: '',
-	emailValid: false,
-	passValid: false,
-	isLogin: false,
-	LoginError: '',
-	checkRemember: false,
-};
- 
- 
 /*
 *This fuction will be use in the LoginForm('src/LoginForm')
 *base on which function in 'mapDispatchToProps' is used

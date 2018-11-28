@@ -6,7 +6,6 @@ import { Provider } from 'react-redux'
 
 import Login from './src/Login';
 
-
 export default class App extends React.Component {
 	render() {
 		return (
